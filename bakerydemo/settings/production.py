@@ -8,6 +8,8 @@ import django_cache_url
 from .base import *  # noqa: F403
 
 DEBUG = os.getenv('DJANGO_DEBUG', 'off') == 'on'
+GOOGLE_OAUTH_CLIENT_CONFIG = os.getenv('GOOGLE_OAUTH_CLIENT_CONFIG')
+GOOGLE_PICKER_API_KEY = os.getenv('GOOGLE_PICKER_API_KEY')
 
 # DJANGO_SECRET_KEY *should* be specified in the environment. If it's not, generate an ephemeral key.
 if 'DJANGO_SECRET_KEY' in os.environ:
