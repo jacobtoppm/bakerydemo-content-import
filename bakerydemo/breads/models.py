@@ -13,6 +13,13 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from wagtail_content_import.models import ContentImportMixin
+from wagtail.core import blocks
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.contrib.table_block.blocks import TableBlock
+from .mappers import SimpleBreadMapper
+
 from bakerydemo.base.blocks import BaseStreamBlock
 
 
@@ -83,10 +90,24 @@ class BreadType(models.Model):
         verbose_name_plural = "Bread types"
 
 
+class SimpleBreadPage(ContentImportMixin, Page):
+    mapper_class = SimpleBreadMapper
+
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+        ('table', TableBlock())
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body')]
+
 class BreadPage(Page):
     """
     Detail view for a specific bread
     """
+
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
@@ -175,7 +196,7 @@ class BreadsIndexPage(Page):
     ]
 
     # Can only have BreadPage children
-    subpage_types = ['BreadPage']
+    subpage_types = ['BreadPage', 'SimpleBreadPage']
 
     # Returns a queryset of BreadPage objects that are live, that are direct
     # descendants of this index page with most recent first
