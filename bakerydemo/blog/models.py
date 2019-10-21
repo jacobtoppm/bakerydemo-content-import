@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib import messages
 from django.db import models
 from django.shortcuts import redirect, render
+from django.utils.text import slugify
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -61,6 +62,29 @@ class BlogPage(ContentImportMixin, Page):
     """
 
     mapper_class = BaseBlockMapper
+
+    @classmethod
+    def create_from_import(cls, parsed_doc, user):
+        """
+        Factory method to create the Page and populate it from a parsed document.
+        """
+        title = parsed_doc['title']
+        mapper_class = cls.mapper_class
+        mapper = mapper_class()
+        imported_data = mapper.map(parsed_doc['elements'], user=user)
+        image = None
+        for stream_element in imported_data:
+            if stream_element[0] == 'image_block':
+                image = stream_element[1]['image']
+                break
+
+        return cls(
+            title=title,
+            slug=slugify(title),
+            body=imported_data,
+            owner=user,
+            image=image,
+        )
 
     introduction = models.TextField(
         help_text='Text to describe the page',
