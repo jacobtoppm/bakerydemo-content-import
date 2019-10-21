@@ -3,6 +3,7 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
+from wagtail.contrib.table_block.blocks import TableBlock
 
 
 class ImageBlock(StructBlock):
@@ -65,3 +66,4 @@ class BaseStreamBlock(StreamBlock):
         help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
         icon="fa-s15",
         template="blocks/embed_block.html")
+    table_block = TableBlock()

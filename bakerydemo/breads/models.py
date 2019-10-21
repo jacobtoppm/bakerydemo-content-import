@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from modelcluster.fields import ParentalManyToManyField
 
 from wagtail.admin.edit_handlers import (
-    FieldPanel, MultiFieldPanel, StreamFieldPanel
+    MultiFieldPanel
 )
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
@@ -18,7 +18,7 @@ from wagtail.core import blocks
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.contrib.table_block.blocks import TableBlock
-from .mappers import SimpleBreadMapper
+from bakerydemo.base.mappers import SimpleMapper
 
 from bakerydemo.base.blocks import BaseStreamBlock
 
@@ -91,7 +91,7 @@ class BreadType(models.Model):
 
 
 class SimpleBreadPage(ContentImportMixin, Page):
-    mapper_class = SimpleBreadMapper
+    mapper_class = SimpleMapper
 
     body = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),

@@ -17,7 +17,10 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
+from wagtail_content_import.models import ContentImportMixin
+
 from bakerydemo.base.blocks import BaseStreamBlock
+from bakerydemo.base.mappers import BaseBlockMapper
 
 
 class BlogPeopleRelationship(Orderable, models.Model):
@@ -48,7 +51,7 @@ class BlogPageTag(TaggedItemBase):
     content_object = ParentalKey('BlogPage', related_name='tagged_items', on_delete=models.CASCADE)
 
 
-class BlogPage(Page):
+class BlogPage(ContentImportMixin, Page):
     """
     A Blog Page
 
@@ -56,6 +59,9 @@ class BlogPage(Page):
     ParentalKey's related_name in BlogPeopleRelationship. More docs:
     http://docs.wagtail.io/en/latest/topics/pages.html#inline-models
     """
+
+    mapper_class = BaseBlockMapper
+
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
