@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'bakerydemo.locations',
     'bakerydemo.search',
 
+    'storages',
+
     'wagtail_content_import',
     'wagtail_content_import.pickers.google',
     "wagtail.contrib.table_block",
